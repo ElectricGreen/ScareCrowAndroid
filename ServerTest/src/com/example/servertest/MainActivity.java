@@ -56,6 +56,8 @@ public class MainActivity extends Activity
 
 	public static final byte HTTP_SOLENOID1_OFF = 0x11;
 	public static final byte HTTP_SOLENOID1_ON = 0x10;
+	public static final byte HTTP_TAKE_PIC = 0x20;
+
 	
 	private Camera camera;
 	private int cameraId = 0;
@@ -76,6 +78,7 @@ public class MainActivity extends Activity
 	
 	public double temperatureValue;
 	public double humidityValue;
+	private boolean timeLapseOn = false;
 	
 	//Open Accessory
 	private boolean deviceAttached = false;
@@ -113,23 +116,6 @@ public class MainActivity extends Activity
 		db = new DataLogging(this);
         
         //WebServer
-//        Process p; 
-//        try { 
-//           // Preform su to get root privledges
-//           p = Runtime.getRuntime().exec("su"); 
-//           
-//           // Attempt to write a file to a root-only 
-//           DataOutputStream os = new DataOutputStream(p.getOutputStream()); 
-//           os.writeBytes("echo \"Do I have root?\" >/system/sd/temporary.txt\n");
-          
-//           // Close the terminal
-//           os.writeBytes("exit\n"); 
-//           os.flush(); 
-//           try { 
-//              p.waitFor(); 
-//                   if (p.exitValue() != 255) { 
-//                	  // TODO Code to run on success
-////                      toastMessage("root");
                 	   server = new WebServer();
                        try {
                            server.start();
@@ -137,19 +123,6 @@ public class MainActivity extends Activity
                            Log.w("Httpd", "The server could not start.");
                        }
                        Log.w("Httpd", "Web server initialized.");
-//                   } 
-//                   else { 
-//                	   // TODO Code to run on unsuccessful
-////                	   toastMessage("not root");    
-//                   } 
-//           } catch (InterruptedException e) { 
-//              // TODO Code to run in interrupted exception
-////        	   toastMessage("not root"); 
-//           } 
-//        } catch (IOException e) { 
-//           // TODO Code to run in input/output exception
-////        	toastMessage("not root"); 
-//        }
  
         //Open Accessory
         accessoryManager = new USBAccessoryManager(handler, 0);
@@ -206,12 +179,41 @@ public class MainActivity extends Activity
         btnCamera.setOnClickListener(new View.OnClickListener() {
 		    @Override
 	    	public void onClick(View v) {
-
 		    	camera.startPreview();
 	            camera.setDisplayOrientation(180);
 
 		    	camera.takePicture(null, null,
 		    	        new PhotoHandler(getApplicationContext()));
+		    	
+//		    	if(timeLapseOn){
+//		    		timeLapseOn = false;
+//			    	btnCamera.setText("Turn On Time-Lapse");
+//			    	timer.cancel();
+//			    	timer = null;
+//		    	}else{
+//		    		timeLapseOn = true;
+//			    	btnCamera.setText("Turn Off Time-Lapse");
+//			    	if (timer == null) {
+//						timer = new Timer("cameraTimer"); // Starts the DemoMode timertask
+//						if (cameraTask == null) {
+//							cameraTask = new TimerTask() {
+//								@Override
+//								public void run() {
+//							    	camera.startPreview();
+//						            camera.setDisplayOrientation(180);
+//
+//							    	camera.takePicture(null, null,
+//							    	        new PhotoHandler(getApplicationContext()));
+////							    	camera.stopPreview();
+//								}
+//							};
+//						}
+//
+//						timer.schedule(cameraTask, 60000L, 1000L); // New values every 30
+//																	// seconds
+//					}
+//		    	}
+		    	
 		    }
     });
         
@@ -224,20 +226,6 @@ public class MainActivity extends Activity
     });
         
         uiIP.setText(getLocalIpAddress());
-
-		if (timer == null) {
-			timer = new Timer("cameraTimer"); // Starts the DemoMode timertask
-			if (cameraTask == null) {
-				cameraTask = new TimerTask() {
-					@Override
-					public void run() {
-					}
-				};
-			}
-
-			timer.schedule(cameraTask, 30000L, 1000L); // New values every 30
-														// seconds
-		}
     }
     
     public String getLocalIpAddress() {
@@ -293,6 +281,13 @@ public class MainActivity extends Activity
 				}
 			});
 			setSolenoid(1, false);
+			break;
+		case HTTP_TAKE_PIC:
+			camera.startPreview();
+            camera.setDisplayOrientation(180);
+
+	    	camera.takePicture(null, null,
+	    	        new PhotoHandler(getApplicationContext()));
 			break;
 		}
 	}
