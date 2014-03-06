@@ -56,6 +56,12 @@ public class MainActivity extends Activity
 
 	public static final byte HTTP_SOLENOID1_OFF = 0x11;
 	public static final byte HTTP_SOLENOID1_ON = 0x10;
+	public static final byte HTTP_SOLENOID2_OFF = 0x11;
+	public static final byte HTTP_SOLENOID2_ON = 0x10;
+	public static final byte HTTP_SOLENOID3_OFF = 0x11;
+	public static final byte HTTP_SOLENOID3_ON = 0x10;
+	public static final byte HTTP_SOLENOID4_OFF = 0x11;
+	public static final byte HTTP_SOLENOID4_ON = 0x10;
 	public static final byte HTTP_TAKE_PIC = 0x20;
 
 	
