@@ -100,4 +100,80 @@
         android:onClick="onClick"
         android:text="Make Photo" />
     </LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of Nodes:" />
+<TextView
+        android:id="@+id/value_numnodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NODEX" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Node Temperature: " />
+<TextView
+        android:id="@+id/value_node1temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00" />
+<TextView
+            android:id="@+id/unit_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" °F" />
+    </LinearLayout>
+    
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Node Soil Moisture: " />
+<TextView
+        android:id="@+id/value_node1soil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00" />
+<TextView
+            android:id="@+id/unit_humid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" %" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Node Light Level: " />
+<TextView
+        android:id="@+id/value_node1light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00" />
+<TextView
+            android:id="@+id/unit_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" lum" />
+    </LinearLayout>
 </LinearLayout>

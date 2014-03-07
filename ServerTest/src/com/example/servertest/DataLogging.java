@@ -27,7 +27,12 @@ public class DataLogging extends SQLiteOpenHelper {
 	private static final String KEY_TIME = "time";
 	private static final String KEY_TEMP = "temperature";
 	private static final String KEY_HUM = "humidity";
-
+	private static final String KEY_SOIL1 = "soil1";
+	private static final String KEY_SOIL2 = "soil2";
+	private static final String KEY_LIGHT1 = "light1";
+	private static final String KEY_LIGHT2 = "light2";
+	private static final String KEY_TEMP1 = "temp1";
+	private static final String KEY_TEMP2 = "temp2";
 	public DataLogging(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -37,7 +42,9 @@ public class DataLogging extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_SENSOR_TABLE = "CREATE TABLE " + TABLE_SENSOR + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TIME + " LONG NOT NULL," + KEY_TEMP + " DOUBLE NOT NULL,"
-				+ KEY_HUM + " DOUBLE NOT NULL" + ")";
+				+ KEY_HUM + " DOUBLE NOT NULL," 
+				+ KEY_SOIL1 + " BYTE NOT NULL," + KEY_LIGHT1 + " BYTE NOT NULL," + KEY_TEMP1 + " DOUBLE NOT NULL,"
+				+ KEY_SOIL2 + " BYTE NOT NULL," + KEY_LIGHT2 + " BYTE NOT NULL," + KEY_TEMP2 + " DOUBLE NOT NULL" + ")";
 		db.execSQL(CREATE_SENSOR_TABLE);
 	}
 
@@ -71,7 +78,12 @@ public class DataLogging extends SQLiteOpenHelper {
 		values.put(KEY_TIME, data.getTime()); // Adds the time
 		values.put(KEY_TEMP, data.getTemp()); // Adds the temp
 		values.put(KEY_HUM, data.getHum()); // Adds the humidity
-
+		values.put(KEY_SOIL1, data.soilSensors[0]);
+		values.put(KEY_LIGHT1, data.lightSensors[0]);
+		values.put(KEY_TEMP1, data.nodeTemp[0]);
+		values.put(KEY_SOIL2, data.soilSensors[1]);
+		values.put(KEY_LIGHT2, data.lightSensors[1]);
+		values.put(KEY_TEMP2, data.nodeTemp[1]);
 		// Inserting Row
 		db.insert(TABLE_SENSOR, null, values);
 		
@@ -89,7 +101,7 @@ public class DataLogging extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 
 		Data data = new Data(Integer.parseInt(cursor.getString(0)),Long.parseLong(cursor.getString(1)),
-				Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
+				Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)), Byte.parseByte(cursor.getString(4)),Byte.parseByte(cursor.getString(5)),Double.parseDouble(cursor.getString(6)),Byte.parseByte(cursor.getString(7)),Byte.parseByte(cursor.getString(8)),Double.parseDouble(cursor.getString(9)));
 		cursor.close();
 		db.close(); // Closing database connection
 		// return data entry
@@ -156,6 +168,27 @@ public class DataLogging extends SQLiteOpenHelper {
 		// return count
 		return count;
 	}
+	
+	public void writeDataLine(Data values){
+		File exportDir = new File(Environment.getExternalStorageDirectory(), "www");
+
+        if (!exportDir.exists())
+
+        {
+
+            exportDir.mkdirs();
+
+        }
+
+        File file = new File(exportDir, "sensorData.csv");
+        FileWriter f;
+//        try {
+//         f = new FileWriter(file,true);
+//             f.write();
+//         f.flush();
+//         f.close();
+//        }
+	}
 	public boolean exportCVS(){
 		
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -188,7 +221,7 @@ public class DataLogging extends SQLiteOpenHelper {
 
             {
 
-                String arrStr[] ={curCSV.getString(0),curCSV.getString(1),curCSV.getString(2),curCSV.getString(3)};
+                String arrStr[] ={curCSV.getString(0),curCSV.getString(1),curCSV.getString(2),curCSV.getString(3),curCSV.getString(4),curCSV.getString(5),curCSV.getString(6),curCSV.getString(7),curCSV.getString(8),curCSV.getString(9)};
 
             /* curCSV.getString(3),curCSV.getString(4)};*/
 

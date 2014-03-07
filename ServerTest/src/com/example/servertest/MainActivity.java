@@ -56,12 +56,12 @@ public class MainActivity extends Activity
 
 	public static final byte HTTP_SOLENOID1_OFF = 0x11;
 	public static final byte HTTP_SOLENOID1_ON = 0x10;
-	public static final byte HTTP_SOLENOID2_OFF = 0x11;
-	public static final byte HTTP_SOLENOID2_ON = 0x10;
-	public static final byte HTTP_SOLENOID3_OFF = 0x11;
-	public static final byte HTTP_SOLENOID3_ON = 0x10;
-	public static final byte HTTP_SOLENOID4_OFF = 0x11;
-	public static final byte HTTP_SOLENOID4_ON = 0x10;
+	public static final byte HTTP_SOLENOID2_OFF = 0x13;
+	public static final byte HTTP_SOLENOID2_ON = 0x12;
+	public static final byte HTTP_SOLENOID3_OFF = 0x15;
+	public static final byte HTTP_SOLENOID3_ON = 0x14;
+	public static final byte HTTP_SOLENOID4_OFF = 0x17;
+	public static final byte HTTP_SOLENOID4_ON = 0x16;
 	public static final byte HTTP_TAKE_PIC = 0x20;
 
 	
@@ -79,6 +79,12 @@ public class MainActivity extends Activity
 	TextView uiTemp;
 	TextView uiHumid;
 	TextView uiIP;
+	
+	TextView uiNumNodes;
+	TextView uiNodeTemp;
+	TextView uiNodeSoil;
+	TextView uiNodeLight;
+
 	 static ToggleButton btnSolenoid;
 	 static Button btnCamera;
 	
@@ -181,6 +187,11 @@ public class MainActivity extends Activity
         uiIP = ((TextView)findViewById(R.id.value_ip));
         uiTemp = ((TextView)findViewById(R.id.value_temperature));
         uiHumid = ((TextView)findViewById(R.id.value_humidity));
+         uiNumNodes = ((TextView)findViewById(R.id.value_numnodes));
+    	 uiNodeTemp = ((TextView)findViewById(R.id.value_node1temp));
+    	 uiNodeSoil = ((TextView)findViewById(R.id.value_node1soil));
+    	 uiNodeLight = ((TextView)findViewById(R.id.value_node1light));
+        
         btnCamera = (Button) findViewById(R.id.captureFront);
         btnCamera.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -325,14 +336,15 @@ public class MainActivity extends Activity
 					switch(recMessage.data[0]){
 					
 					case PCK_UPDATE:
-						int temp = bytesToInt(recMessage.data[1],recMessage.data[2],recMessage.data[3],recMessage.data[4]);
-						temperatureValue = temp*.001;
-						temp = bytesToInt(recMessage.data[5],recMessage.data[6],recMessage.data[7],recMessage.data[8]);
-						humidityValue = temp*.001;
-						uiTemp.setText(Double.toString(temperatureValue));
-						uiHumid.setText(Double.toString(humidityValue));
+						Packet recPkt = new Packet(recMessage.data);
+						uiTemp.setText(Double.toString(recPkt.baseTemp));
+						uiHumid.setText(Double.toString(recPkt.baseHumid));
+						uiNumNodes.setText(Double.toString(recPkt.numNodes));
+				    	 uiNodeTemp.setText(Double.toString(recPkt.temperature[0]));
+				    	 uiNodeSoil.setText(Double.toString(recPkt.soilSensors[0]));
+				    	 uiNodeLight.setText(Double.toString(recPkt.lightSensors[0]));
 						Date currentDate = new Date();
-						db.addData(new Data(dataCount++,currentDate.getTime(),temperatureValue,humidityValue));		
+						db.addData(new Data(dataCount++,currentDate.getTime(),temperatureValue,humidityValue,recPkt.soilSensors[0],recPkt.lightSensors[0],recPkt.temperature[0],recPkt.soilSensors[1],recPkt.lightSensors[1],recPkt.temperature[1]));		
 						db.exportCVS();
 						break;
 					
