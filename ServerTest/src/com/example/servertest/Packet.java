@@ -11,21 +11,22 @@ public class Packet {
 	public byte baseLight = 0;
 	
 		public Packet(byte[] data){
-			type = data[1];
-			numNodes = data[2];
-			soilSensors[0] = data[3];
-			soilSensors[1] = data[4];
-			lightSensors[0] = data[5];
-			lightSensors[1] = data[6];
-			temperature[0] = (((data[7]<<8)&0xFF)+(data[8]&0xFF))*.1;
-			temperature[1] = (((data[9]<<8)&0xFF)+(data[10]&0xFF))*.1;	
-			int temp = bytesToInt(data[11],data[12],data[13],data[14]);
+			int index = 0;
+			type = data[index++];
+			numNodes = data[index++];
+			soilSensors[0] = data[index++];
+			soilSensors[1] = data[index++];
+			lightSensors[0] = data[index++];
+			lightSensors[1] = data[index++];
+			temperature[0] = (((data[index++]<<8)&0xFF)+(data[index++]&0xFF))*.1;
+			temperature[1] = (((data[index++]<<8)&0xFF)+(data[index++]&0xFF))*.1;	
+			int temp = bytesToInt(data[index++],data[index++],data[index++],data[index++]);
 			baseTemp = temp*.001;
-			temp = bytesToInt(data[15],data[16],data[17],data[18]);
+			temp = bytesToInt(data[index++],data[index++],data[index++],data[index++]);
 			baseHumid = temp*.001;
-			baseLight = data[19];
+			baseLight = data[index++];
 		}
-		public int bytesToInt(byte msb, byte byte1, byte byte2, byte lsb) {
+		public int bytesToInt(byte lsb, byte byte2, byte byte1, byte msb) {
 			int temp = (msb & 0xFF);
 			temp = ((temp << 8) & 0xFF00) + (byte1 & 0xFF);
 			temp = ((temp << 8) & 0xFFFF00) + (byte2 & 0xFF);

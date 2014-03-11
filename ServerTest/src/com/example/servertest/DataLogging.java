@@ -125,6 +125,12 @@ public class DataLogging extends SQLiteOpenHelper {
 				data.setTime(Long.parseLong(cursor.getString(1)));
 			    data.setTemp(Double.parseDouble(cursor.getString(2)));
 				data.setHum(Double.parseDouble(cursor.getString(3)));
+				data.soilSensors[0] = Byte.parseByte(cursor.getString(4));
+				data.lightSensors[0] = Byte.parseByte(cursor.getString(5));
+				data.nodeTemp[0] = Double.parseDouble(cursor.getString(6));
+				data.soilSensors[1] = Byte.parseByte(cursor.getString(7));
+				data.lightSensors[1] = Byte.parseByte(cursor.getString(8));
+				data.nodeTemp[1] = Double.parseDouble(cursor.getString(9));
 				// Adding data to list
 				dataList.add(data);
 			} while (cursor.moveToNext());
@@ -181,13 +187,23 @@ public class DataLogging extends SQLiteOpenHelper {
         }
 
         File file = new File(exportDir, "sensorData.csv");
+        if(!file.exists()){
+        	exportCVS();
+        }
+        
         FileWriter f;
-//        try {
-//         f = new FileWriter(file,true);
-//             f.write();
-//         f.flush();
-//         f.close();
-//        }
+        try {
+         f = new FileWriter(file,true);
+             f.write("\""+values.id+"\",\""+values.time+"\",\""+Double.toString(values.temperature)+"\",\""+Double.toString(values.humidity)
+            		 +"\",\""+Byte.toString(values.soilSensors[0])+"\",\""+Byte.toString(values.lightSensors[0])+"\",\""+Double.toString(values.nodeTemp[0])
+            		 +"\",\""+Byte.toString(values.soilSensors[1])+"\",\""+Byte.toString(values.lightSensors[1])+"\",\""+Double.toString(values.nodeTemp[1])
+            		 +"\"\n");
+         f.flush();
+         f.close();
+        }catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public boolean exportCVS(){
 		

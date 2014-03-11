@@ -14,11 +14,14 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbManager;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -43,6 +46,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -256,6 +260,12 @@ public class MainActivity extends Activity
                     }
                 }
             }
+//        	String IP;
+//        	  WifiManager wim= (WifiManager) getSystemService(WIFI_SERVICE);
+//        	  List<WifiConfiguration> l =  wim.getConfiguredNetworks(); 
+//        	  WifiConfiguration wc = l.get(0);
+//        	  IP=Formatter.formatIpAddress(wim.getConnectionInfo().getIpAddress());
+//        	  return IP;
         } catch (SocketException ex) {
 //            Log.e(LOG_TAG, ex.toString());
         }
@@ -337,15 +347,16 @@ public class MainActivity extends Activity
 					
 					case PCK_UPDATE:
 						Packet recPkt = new Packet(recMessage.data);
-						uiTemp.setText(Double.toString(recPkt.baseTemp));
-						uiHumid.setText(Double.toString(recPkt.baseHumid));
-						uiNumNodes.setText(Double.toString(recPkt.numNodes));
-				    	 uiNodeTemp.setText(Double.toString(recPkt.temperature[0]));
-				    	 uiNodeSoil.setText(Double.toString(recPkt.soilSensors[0]));
-				    	 uiNodeLight.setText(Double.toString(recPkt.lightSensors[0]));
+						uiTemp.setText(String.format("%.2f", recPkt.baseTemp));
+						uiHumid.setText(String.format("%.2f", recPkt.baseHumid));
+						uiNumNodes.setText(Byte.toString(recPkt.numNodes));
+				    	 uiNodeTemp.setText(String.format("%.2f", recPkt.temperature[0]));
+				    	 uiNodeSoil.setText(Byte.toString(recPkt.soilSensors[0]));
+				    	 uiNodeLight.setText(Byte.toString(recPkt.lightSensors[0]));
 						Date currentDate = new Date();
-						db.addData(new Data(dataCount++,currentDate.getTime(),temperatureValue,humidityValue,recPkt.soilSensors[0],recPkt.lightSensors[0],recPkt.temperature[0],recPkt.soilSensors[1],recPkt.lightSensors[1],recPkt.temperature[1]));		
-						db.exportCVS();
+						Data newData = new Data(dataCount++,currentDate.getTime(),recPkt.baseTemp,recPkt.baseHumid,recPkt.soilSensors[0],recPkt.lightSensors[0],recPkt.temperature[0],recPkt.soilSensors[1],recPkt.lightSensors[1],recPkt.temperature[1]);
+						db.addData(newData);		
+						db.writeDataLine(newData);
 						break;
 					
 					}
