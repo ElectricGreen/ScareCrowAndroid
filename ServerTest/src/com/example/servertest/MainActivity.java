@@ -12,8 +12,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.usb.UsbAccessory;
-import android.hardware.usb.UsbManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -53,20 +51,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity
 {
-	public static final byte PCK_UPDATE = 0x5;
-	public static final byte PCK_CMD = 0x6;
 
-	public static final byte CMD_SOLENOID = 0x10;
-
-	public static final byte HTTP_SOLENOID1_OFF = 0x11;
-	public static final byte HTTP_SOLENOID1_ON = 0x10;
-	public static final byte HTTP_SOLENOID2_OFF = 0x13;
-	public static final byte HTTP_SOLENOID2_ON = 0x12;
-	public static final byte HTTP_SOLENOID3_OFF = 0x15;
-	public static final byte HTTP_SOLENOID3_ON = 0x14;
-	public static final byte HTTP_SOLENOID4_OFF = 0x17;
-	public static final byte HTTP_SOLENOID4_ON = 0x16;
-	public static final byte HTTP_TAKE_PIC = 0x20;
 
 	
 	private Camera camera;
@@ -75,9 +60,7 @@ public class MainActivity extends Activity
 	private TimerTask cameraTask; 	
 	private Timer timer;
 
-	//Database
-	DataLogging db;
-	int dataCount = 0;
+
 	
 	 //UI
 	TextView uiTemp;
@@ -95,23 +78,14 @@ public class MainActivity extends Activity
 	public double temperatureValue;
 	public double humidityValue;
 	private boolean timeLapseOn = false;
-	
-	//Open Accessory
-	private boolean deviceAttached = false;
-	
-	private int firmwareProtocol = 0;
+
 	
 	private static String TAG = "ELECTRICSCARE";
 	
-	private enum ErrorMessageCode {
-		ERROR_OPEN_ACCESSORY_FRAMEWORK_MISSING,
-		ERROR_FIRMWARE_PROTOCOL
-	};
+
 	
-	private static USBAccessoryManager accessoryManager; 
 	 
-	//Web Server
-    private WebServer server;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -120,28 +94,15 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
        
      // do we have a camera?
-        if (!getPackageManager()
-            .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-          Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG)
-              .show();
-        } else {
-          cameraId = findFrontFacingCamera();
-            camera = Camera.open(0);
-        }
+//        if (!getPackageManager()
+//            .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+//          Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG)
+//              .show();
+//        } else {
+//          cameraId = findFrontFacingCamera();
+//            camera = Camera.open(0);
+//        }
         
-		db = new DataLogging(this);
-        
-        //WebServer
-                	   server = new WebServer();
-                       try {
-                           server.start();
-                       } catch(IOException ioe) {
-                           Log.w("Httpd", "The server could not start.");
-                       }
-                       Log.w("Httpd", "Web server initialized.");
- 
-        //Open Accessory
-        accessoryManager = new USBAccessoryManager(handler, 0);
     }
     
     
@@ -167,8 +128,8 @@ public class MainActivity extends Activity
     public void onDestroy()
     {
         super.onDestroy();
-        if (server != null)
-            server.stop();
+//        if (server != null)
+//            server.stop();
     }
     
     @Override
@@ -184,10 +145,15 @@ public class MainActivity extends Activity
     public void onResume() {
     	super.onResume();
     	
+    	// use this to start and trigger a service
+    	Intent i= new Intent(this, ScareService.class);
+    	// potentially add data to the intent
+    	i.putExtra("ScareServ", "Value to be used by the service");
+    	this.startService(i);
+    	
     	//Keep the display on
     	getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        accessoryManager.enable(this, getIntent());
         uiIP = ((TextView)findViewById(R.id.value_ip));
         uiTemp = ((TextView)findViewById(R.id.value_temperature));
         uiHumid = ((TextView)findViewById(R.id.value_humidity));
@@ -242,7 +208,7 @@ public class MainActivity extends Activity
         btnSolenoid.setOnClickListener(new View.OnClickListener() {
 		    @Override
 	    	public void onClick(View v) {
-		    	setSolenoid(1,btnSolenoid.isChecked());
+		    	//setSolenoid(1,btnSolenoid.isChecked());
 		    }
     });
         
@@ -272,165 +238,8 @@ public class MainActivity extends Activity
         return null;
     }
     
-    public static void setSolenoid(int solenoid, boolean state){
-		byte[] commandPacket = new byte[4];
-		commandPacket[0] = PCK_CMD;
-		commandPacket[1] = CMD_SOLENOID;
-		commandPacket[2] = (byte) solenoid;
-		commandPacket[3] = (byte) (state?1:0);
-		accessoryManager.write(commandPacket);
-    }
+   
     
-    public void httpResponse(String uri){
-    	if (uri.length()<4)
-			return;
-
-		char[] letters = uri.toCharArray();
-		int command = Character.getNumericValue(letters[1]) * 1000;
-		command += Character.getNumericValue(letters[2]) * 100;
-		command += Character.getNumericValue(letters[3]) * 10;
-		command += Character.getNumericValue(letters[4]);
-		switch (command) {
-		case HTTP_SOLENOID1_ON:
-			Log.d(TAG, "solendoid on");
-			MainActivity.this.runOnUiThread(new Runnable() {
-				public void run() {
-					btnSolenoid.setChecked(true);
-				}
-			});
-			setSolenoid(1, true);
-			break;
-		case HTTP_SOLENOID1_OFF:
-			Log.d(TAG, "solendoid off");
-			MainActivity.this.runOnUiThread(new Runnable() {
-				public void run() {
-					btnSolenoid.setChecked(false);
-				}
-			});
-			setSolenoid(1, false);
-			break;
-		case HTTP_TAKE_PIC:
-			camera.startPreview();
-            camera.setDisplayOrientation(180);
-
-	    	camera.takePicture(null, null,
-	    	        new PhotoHandler(getApplicationContext()));
-			break;
-		}
-	}
-    
-    /** 
-     * Handler for receiving messages from the USB Manager thread or
-     *   the LED control modules
-     */
-    private Handler handler = new Handler() {
-    	@Override
-    	public void handleMessage(Message msg) {
-    		
-    		if(accessoryManager.isConnected() == false) {
-				return;
-			}
-    		
-    		
-    		Log.d("Handler", "what: " + msg.what);
-    		
-			switch(msg.what)
-			{				
-			case 0:
-				USBAccessoryManagerMessage recMessage = (USBAccessoryManagerMessage)msg.obj;
-				switch (recMessage.type) {
-				case READ:
-					if(accessoryManager.isConnected() == false) {
-						return;
-					}
-					switch(recMessage.data[0]){
-					
-					case PCK_UPDATE:
-						Packet recPkt = new Packet(recMessage.data);
-						uiTemp.setText(String.format("%.2f", recPkt.baseTemp));
-						uiHumid.setText(String.format("%.2f", recPkt.baseHumid));
-						uiNumNodes.setText(Byte.toString(recPkt.numNodes));
-				    	 uiNodeTemp.setText(String.format("%.2f", recPkt.temperature[0]));
-				    	 uiNodeSoil.setText(Byte.toString(recPkt.soilSensors[0]));
-				    	 uiNodeLight.setText(Byte.toString(recPkt.lightSensors[0]));
-						Date currentDate = new Date();
-						Data newData = new Data(dataCount++,currentDate.getTime(),recPkt.baseTemp,recPkt.baseHumid,recPkt.soilSensors[0],recPkt.lightSensors[0],recPkt.temperature[0],recPkt.soilSensors[1],recPkt.lightSensors[1],recPkt.temperature[1]);
-						db.addData(newData);		
-						db.writeDataLine(newData);
-						break;
-					
-					}
-					Log.d(TAG, "Rec Message:"+recMessage.data[0]+"|"+recMessage.data[1]);
-					break;
-					
-				case CONNECTED:
-					break;
-				case READY:					
-					Log.d(TAG, "BasicAccessoryDemo:Handler:READY");
-					break;
-				case DISCONNECTED:
-					break;
-				}				
-				
-   				break;
-			default:
-				break;
-			}	//switch
-    	} //handleMessage
-    }; //handler
-    
-    
-    
-    
-    
-    // WebServer Temporary Class
-    private class WebServer extends NanoHTTPD {
-
-        public WebServer()
-        {
-            super(8090);
-        }
-
-        @Override
-        public Response serve(String uri, Method method, 
-                              Map<String, String> header,
-                              Map<String, String> parameters,
-                              Map<String, String> files) {
-        	httpResponse(uri);
-            String answer = "";
-//            try {
-//                // Open file from SD Card
-//                File root = Environment.getExternalStorageDirectory();
-//                FileReader index = new FileReader(root.getAbsolutePath() +
-//                        "/www/index.html");
-//                BufferedReader reader = new BufferedReader(index);
-//                String line = "";
-//                while ((line = reader.readLine()) != null) {
-//                    answer += line;
-//                }
-//
-//            } catch(IOException ioe) {
-//                Log.w("Httpd", ioe.toString());
-//            }
-            
-
-            return new NanoHTTPD.Response(answer);
-        }
-    }
-    
-    public int bytesToInt(byte msb, byte byte1, byte byte2, byte lsb) {
-		int temp = (msb & 0xFF);
-		temp = ((temp << 8) & 0xFF00) + (byte1 & 0xFF);
-		temp = ((temp << 8) & 0xFFFF00) + (byte2 & 0xFF);
-		temp = ((temp << 8) & 0xFFFFFF00) + (lsb & 0xFF);
-		return temp;
-	}
-	public void intToBytes(byte[] data, int index, int value){
-		data[index++] = (byte) ((value>>24)&0xFF);
-		data[index++] = (byte) ((value>>16)&0xFF);
-		data[index++] = (byte) ((value>>8)&0xFF);
-		data[index++] = (byte) (value&0xFF);
-		return;
-	}
+   
 
 }

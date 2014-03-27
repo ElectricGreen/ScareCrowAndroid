@@ -9,6 +9,9 @@ public class Packet {
 	public double baseTemp = 0;
 	public double baseHumid = 0;
 	public byte baseLight = 0;
+	public byte rValue = 0;
+	public byte gValue = 0;
+	public byte bValue = 0;
 	
 		public Packet(byte[] data){
 			int index = 0;
@@ -25,6 +28,9 @@ public class Packet {
 			temp = bytesToInt(data[index++],data[index++],data[index++],data[index++]);
 			baseHumid = temp*.001;
 			baseLight = data[index++];
+			rValue = data[index++];
+			gValue = data[index++];
+			bValue = data[index++];
 		}
 		public int bytesToInt(byte lsb, byte byte2, byte byte1, byte msb) {
 			int temp = (msb & 0xFF);
