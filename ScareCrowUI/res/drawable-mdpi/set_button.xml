@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For a good explanation of selector state lists: http://developer.android.com/guide/topics/resources/drawable-resource.html#StateList -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="false" android:drawable="@drawable/buttonbg"/>
+	<item android:state_pressed="true" android:drawable="@drawable/buttonbg_press"/>
+</selector>

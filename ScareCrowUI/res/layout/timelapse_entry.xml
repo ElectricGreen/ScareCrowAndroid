@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="#000000"
+    android:padding="6dip" >
+
+    
+    <TextView
+        android:id="@+id/label_time"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:padding="8dp"        
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="Daily at:"
+      	android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+    <Button
+        android:id="@+id/btn_lapse_time"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/label_time"
+        android:text="11:23"
+      	android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/label_location"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:padding="8dp"
+        android:layout_centerHorizontal="true"        
+        android:layout_alignParentTop="true"
+        android:text="Location:"
+      	android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_lapse_location"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/label_location"
+        android:text="NE"
+      	android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+	<ImageButton
+        	        android:id="@+id/btn_timelapse_delete"
+        	        android:layout_alignParentTop="true"
+        	        android:layout_alignParentRight="true"
+        	        android:layout_width="wrap_content"
+        	        android:layout_height="40dp"
+        	        android:src="@android:drawable/ic_menu_delete"/>
+</RelativeLayout> 

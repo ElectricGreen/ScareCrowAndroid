@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="@color/ApplicationBackground"
+    android:orientation="horizontal"
+    android:padding="10dp">
+<LinearLayout
+    android:background="@drawable/notitlerect" 
+  android:layout_width="855dp"
+    android:layout_height="fill_parent"
+    android:padding="20dp"  >
+    <WebView
+        android:id="@+id/photo_web_view"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+        android:layout_width="815dp"
+        android:layout_height="fill_parent" />
+  </LinearLayout>
+  <Space 
+      android:layout_width="10dp"
+      android:layout_height="fill_parent"/>
+  <LinearLayout
+  android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="fill_parent"
+    android:background="@drawable/sidebar"
+    android:orientation="vertical" 
+    android:padding="10dp">
+    
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:textSize="20dp"
+        android:text="Current Location: " />
+    <TextView
+        android:id="@+id/photo_web_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:textSize="20dp"
+        android:text="" />
+            </LinearLayout>
+</LinearLayout>

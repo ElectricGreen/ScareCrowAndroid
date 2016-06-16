@@ -1,0 +1,215 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/ApplicationBackground"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <LinearLayout
+        android:id="@+id/tempHumidStatusView"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/tempView"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/twopanel"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:scaleType="fitXY" >
+
+            <TextView
+                android:id="@+id/tempLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Temperature"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/mainTempValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:includeFontPadding="false"
+                    android:text="200.0"
+                    android:textColor="#FF0000"
+                    android:textSize="88sp" />
+
+                <TextView
+                    android:id="@+id/mainTempUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="°F"
+                    android:textColor="#FF0000"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/vapor_btn_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Off"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/vapor_btn_preheat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Preheat"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/vapor_btn_set"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Set"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="fill_parent" />
+            
+        <LinearLayout
+            android:id="@+id/vapor_container_off"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/twopanel"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:scaleType="fitXY" 
+            android:visibility="visible">
+            
+            <Switch
+                android:id="@+id/vapor_btn_fan_enable"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Fan Control" 
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+            
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Modes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+             <RadioGroup
+        android:id="@+id/vapor_presets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+ 
+        <RadioButton
+            android:id="@+id/vapor_preset_manual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Manual"
+            android:checked="true" />
+        <RadioButton
+            android:id="@+id/vapor_preset_whip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Whip" />
+        <RadioButton
+            android:id="@+id/vapor_preset_bag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Bag" />
+ 
+    </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed: "
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <SeekBar
+                    android:id="@+id/vapor_value_fan_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100" />
+
+                <TextView
+                    android:id="@+id/vapor_display_fan_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            
+             <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <Chronometer
+                android:id="@+id/vapor_duration"
+        android:format="%s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:textSize="30sp" />
+
+            <ToggleButton
+                android:id="@+id/vapor_btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+        		android:layout_alignParentRight="true"
+        		android:layout_centerVertical="true"
+        		
+                android:textOff="Pause"
+                android:textOn="Resume"
+                android:textSize="12sp" />
+
+</RelativeLayout>
+            
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

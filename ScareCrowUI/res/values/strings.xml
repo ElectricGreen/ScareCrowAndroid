@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ScareCrow Monitor</string>
+    <string name="pid_prompt">Pick PID</string>
+
+    <string-array name="pid_names">
+        <item>Temperature</item>
+        <item>Humidity</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    
+    <string name="graph_graphs_prompt">Select Graph</string>
+
+    <string-array name="graph_graphs">
+        <item>PID Data</item>
+        <item>OBD Data</item>
+    </string-array>
+    
+    <string name="pidsets_prompt">PID Set</string>
+
+    <string-array name="pidsets_names">
+        <item>Null</item>
+        <item>Set 1</item>
+        <item>Set 2</item>
+        <item>Set 3</item>
+        <item>Set 4</item>
+        <item>Set 5</item>
+        <item>Set 6</item>
+        <item>Set 7</item>
+        <item>Set 8</item>
+        <item>Set 9</item>
+        <item>Set 10</item>
+    </string-array>
+    
+        <string name="pid_loop_select_prompt">PID Loop</string>
+
+    <string-array name="pid_loop_select">
+        <item>Temperature</item>
+        <item>Humidity</item>
+        <item>CO2</item>
+    </string-array>
+    
+        <string name="pid_types_prompt">PID Type</string>
+
+    <string-array name="pid_types">
+        <item>Classic PI</item>
+        <item>Classic PID</item>
+        <item>PESSEN</item>
+        <item>Some Overshoot</item>
+        <item>No Overshoot</item>
+    </string-array>
+    
+    <string name="pid_mode_prompt">PID Mode</string>
+
+    <string-array name="pid_modes">
+        <item>Null</item>
+        <item>Disabled</item>
+        <item>On/Off</item>
+        <item>PID</item>
+        <item>Cascade</item>
+    </string-array>
+    
+    <string name="pid_boost_prompt">Boost Mode</string>
+
+    <string-array name="pid_boost_modes">
+        <item>Disabled</item>
+        <item>Activate at Power</item>
+        <item>With Cooling</item>
+    </string-array>
+        
+    <string name="pid_purge_prompt">Purge Mode</string>
+
+    <string-array name="pid_purge_modes">
+        <item>Disabled</item>
+        <item>Activate at Power</item>
+        <item>With Dehumidify</item>
+    </string-array>
+    
+    <string name="pid_output_prompt">Output</string>
+
+    <string-array name="pid_outputs">
+        <item>Null</item>
+        <item>Heat</item>
+        <item>Cool</item>
+        <item>Humidify</item>
+        <item>Dehumidify</item>
+        <item>Boost 1</item>
+        <item>Purge 1</item>
+        <item>Boost 2</item>
+        <item>Purge 2</item>
+    </string-array>
+    
+    <string name="pid_input_prompt">Input</string>
+
+    <string-array name="pid_inputs">
+        <item>Null</item>
+        <item>Thermocouple 1</item>
+        <item>Thermocouple 2</item>
+        <item>RTD 1</item>
+        <item>RTD 2</item>
+        <item>4–20mA</item>
+        <item>I2C</item>
+        <item>Capacitive</item>
+    </string-array>
+    
+    <string-array name="rtd_types">
+        <item>P100</item>
+        <item>P1000</item>
+    </string-array>
+    
+    <string-array name="thermo_types">
+        <item>K-Type</item>
+        <item>T-Type</item>
+    </string-array>
+    
+    <string-array name="loop_types">
+        <item>Humidity</item>
+        <item>CO2</item>
+    </string-array>
+    
+    <string-array name="i2c_types">
+        <item>Sensirion</item>
+        <item>CO2</item>
+    </string-array>
+    <string-array name="cap_types">
+        <item>Humidity</item>
+    </string-array>
+</resources>

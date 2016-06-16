@@ -1,0 +1,126 @@
+<LinearLayout android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/ApplicationBackground"
+    android:orientation="vertical"
+    android:padding="10dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+    android:orientation="vertical"
+    		        android:background="@drawable/fullscreen" 
+    		        android:padding="10dp"
+        >
+<LinearLayout 
+    android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:gravity="left">
+
+    <CheckBox
+        android:id="@+id/ckb_basetemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFF0000"
+        android:text="BaseTemp" />
+    <CheckBox
+        android:id="@+id/ckb_basehumid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000FF"
+        android:text="BaseHumid" />
+    <CheckBox
+        android:id="@+id/ckb_baselight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF00"
+        android:text="BaseLight" />
+    <CheckBox
+        android:id="@+id/ckb_n1soil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF00FFFF"
+        android:text="N1Soil" />
+    <CheckBox
+        android:id="@+id/ckb_n1light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF00FF00"
+        android:text="N1Light" />
+    <CheckBox
+        android:id="@+id/ckb_n1temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF444444"
+        android:text="N1Temp" />
+    <CheckBox
+        android:id="@+id/ckb_n2soil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFF00FF"
+        android:text="N2Soil" />
+    <CheckBox
+        android:id="@+id/ckb_n2light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:text="N2Light" />
+    <CheckBox
+        android:id="@+id/ckb_n2temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF888888"
+        android:text="N2Temp" />
+    <Space 
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        />
+        
+        <ToggleButton
+            android:id="@+id/btn_zoom_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Live"
+            android:textOn="Live" />
+        <ToggleButton
+            android:id="@+id/btn_zoom_1D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="1 Day"
+            android:textOn="1 Day" />
+        <ToggleButton
+            android:id="@+id/btn_zoom_5D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:clickable="false"
+            android:textOff="5 Day"
+            android:textOn="5 Day" />
+        <ToggleButton
+            android:id="@+id/btn_zoom_10D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="10 Day"
+            android:textOn="10 Day" />
+        <ToggleButton
+            android:id="@+id/btn_zoom_30D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="30 Day"
+            android:textOn="30 Day" />
+        <Space 
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>
+
+   <LinearLayout
+        android:id="@+id/fullscreen_graph"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:scaleType="fitXY" />
+</LinearLayout>
+</LinearLayout>

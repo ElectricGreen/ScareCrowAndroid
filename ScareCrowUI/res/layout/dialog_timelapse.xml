@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<ListView 
+    android:id="@+id/timelapse_list_view"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" /> 
+    <ImageButton
+                android:id="@+id/diag_timelapse_btn_add_time"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+				android:src="@android:drawable/ic_menu_add" />
+    
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content" >
+        
+        <Button
+            android:id="@+id/diag_timelapse_btn_cancel"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+        
+            <Button
+                android:id="@+id/diag_timelapse_btn_save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save"
+                android:textSize="15sp" />
+        
+    </LinearLayout>
+
+</LinearLayout>

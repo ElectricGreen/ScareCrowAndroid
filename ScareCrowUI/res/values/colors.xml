@@ -1,0 +1,15 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="ApplicationBackground">#00FF88</color>
+    <color name="BottomNavigation">#161819</color>
+    <color name="NotificationsBackground">#212324</color>
+    
+    <color name="TempPanelFontsColor">#9a0d0d</color>
+    <color name="HumidityPanelFontsColor">#5383c3</color>
+    <color name="NavPanelFontsColor">#aaaaaa</color>
+    <color name="TableHeaderColor">#888888</color>
+    <color name="DetailPanelColor">#333333</color>
+    <color name="TextColor">#00FF80</color>
+    
+</resources>
